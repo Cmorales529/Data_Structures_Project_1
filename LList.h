@@ -3,7 +3,6 @@ using namespace std;
 
 /***************************************************************/
 /* Programmer: Christian Morales                                */        
-/* Date: February 2, 2023                                      */        
 /* Purpose:  generic linked list class                         */ 
 /***************************************************************/
 

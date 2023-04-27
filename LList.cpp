@@ -1,8 +1,7 @@
 #include "LList.h"
 
 /***************************************************************/
-/* Programmer: Anna Salvati                                   */        
-/* Date: February 2, 2023                                     */        
+/* Programmer: Christian Morales                                  */     
 /* Purpose: Implementation of linked list class                */ 
 /* Input: none                                                 */
 /* Output: print function prints all items in the list         */
@@ -58,10 +57,10 @@ void LList<T> :: insertItem(T item)
    }
    else
    {
-      node<T> *q = first;
+      node<T> *q = first->next;
       node<T> *r = NULL;
 
-      while ( q != NULL && q->info < item )
+      while ( q != first && q->info < item )
         {
            r = q;
            q = q->next;
@@ -90,13 +89,13 @@ void LList<T> :: deleteItem(T item)
       {
          node<T> *s = NULL;
 
-         while ( p != NULL && item < p->info )
+         while ( p != first && item < p->info )
            {
               s = p;
               p = p->next;
            }
 
-         if ( p == NULL || p->info > item )
+         if ( p == first || p->info > item )
             cout<<"\nITEM NOT IN THE LIST\n";
          else
          {
@@ -113,15 +112,23 @@ template <class T>
 void LList<T> :: destroy()
 {
     node<T> *p;
+    node<T> *q;
+   p = first->next;
+   while (p->next != first)
+   {
+      p=p->next;
+   }
 
-    while ( first != NULL )
-      {
-         p = first;
-         first = first->next;
-         delete p;
-      }
+   while ( first != p )
+   {
+      q = first;
+      first = first->next;
+      delete q;
+   }
 
-    length = 0;
+      delete p;
+
+   length = 0;
 }
 
 template <class T>

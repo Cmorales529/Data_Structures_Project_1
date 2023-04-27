@@ -2,8 +2,7 @@
 
 
 /***************************************************************/
-/* Programmer:  Anna Salvati                                   */        
-/* Date:  February 2, 2023                                     */        
+/* Programmer:  Christian Morales                              */        
 /* Purpose: Test linked list class using a menu driven         */
 /*          program                                            */
 /* Input: user’s choice to perform an operation                */        
