@@ -1,7 +1,8 @@
 #include "LList.h"
 
 /***************************************************************/
-/* Programmer: Christian Morales                                  */     
+/* Programmer: Anna Salvati                                   */        
+/* Date: February 2, 2023                                     */        
 /* Purpose: Implementation of linked list class                */ 
 /* Input: none                                                 */
 /* Output: print function prints all items in the list         */
@@ -50,23 +51,29 @@ void LList<T> :: insertItem(T item)
    node<T> *p = new node<T>;
    p->info = item;
 
-   if ( first == NULL || item < first->info )
+   if(first == NULL)
+   {
+      p->next = p;
+      first = p;
+   }
+   if (item < first->info)
    {
       p->next = first;
+      first->next = p;
       first = p;
+      
    }
    else
    {
       node<T> *q = first->next;
       node<T> *r = NULL;
 
-      while ( q != first && q->info < item )
+      while ( q->next != first && q->info < item )
         {
-           r = q;
-           q = q->next;
+            q = q->next;
         }
-
-       p->next = q;
+       r = q;
+       p->next = first;
        r->next = p;
    }
 }
@@ -86,16 +93,16 @@ void LList<T> :: deleteItem(T item)
          length--;
         }
       else
-      {
+      {.
          node<T> *s = NULL;
 
-         while ( p != first && item < p->info )
+         while ( p != NULL && item < p->info )
            {
               s = p;
               p = p->next;
            }
 
-         if ( p == first || p->info > item )
+         if ( p == NULL || p->info > item )
             cout<<"\nITEM NOT IN THE LIST\n";
          else
          {
@@ -112,23 +119,15 @@ template <class T>
 void LList<T> :: destroy()
 {
     node<T> *p;
-    node<T> *q;
-   p = first->next;
-   while (p->next != first)
-   {
-      p=p->next;
-   }
 
-   while ( first != p )
-   {
-      q = first;
-      first = first->next;
-      delete q;
-   }
+    while ( first != NULL )
+      {
+         p = first;
+         first = first->next;
+         delete p;
+      }
 
-      delete p;
-
-   length = 0;
+    length = 0;
 }
 
 template <class T>
@@ -145,7 +144,7 @@ void LList<T> :: copy ( const LList<T> & other )
        node<T> *p = other.first->next;
        node<T> *q = first;
 
-       while ( p != first->next )
+       while ( p != NULL )
          {
             q->next = new node<T>;
             q = q->next;
@@ -153,7 +152,7 @@ void LList<T> :: copy ( const LList<T> & other )
             p = p->next;
          }
 
-        q->next = first;
+        q->next = NULL;
     }
 }
 
@@ -170,9 +169,9 @@ bool LList<T> :: searchItem(T item)
    bool found;
 
    found = false;
-   p = first->next;
+   p = first;
 
-   while ( p != first && !found && p->info <= item )
+   while ( p != NULL && !found && p->info <= item )
    {
       if ( item == p->info )
          found= true;
@@ -192,9 +191,9 @@ void LList<T> :: printList()
      cout<<"\nLIST : ";
      node<T> *p;
 
-     p = first->next;
+     p = first;
 
-     while ( p != first )
+     while ( p != NULL )
      {
         cout<<p->info<<" ";
         p = p->next;
