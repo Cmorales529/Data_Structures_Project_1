@@ -59,7 +59,6 @@ void LList<T> :: insertItem(T item)
    if (item < first->info)
    {
       p->next = first;
-      first->next = p;
       first = p;
       
    }
@@ -85,7 +84,7 @@ void LList<T> :: deleteItem(T item)
       cout<<"\nLIST EMPTY OR ITEM NOT IN THE LIST";
    else
    {
-      node<T> *p = first;
+      node<T> *p = first->next;
       if ( item == first->info )
       {
          first = first->next;
@@ -93,16 +92,16 @@ void LList<T> :: deleteItem(T item)
          length--;
         }
       else
-      {.
+      {
          node<T> *s = NULL;
 
-         while ( p != NULL && item < p->info )
+         while ( p != first && item > p->info )
            {
               s = p;
               p = p->next;
            }
 
-         if ( p == NULL || p->info > item )
+         if ( p == first || p->info > item )
             cout<<"\nITEM NOT IN THE LIST\n";
          else
          {
@@ -118,16 +117,21 @@ void LList<T> :: deleteItem(T item)
 template <class T>
 void LList<T> :: destroy()
 {
-    node<T> *p;
-
-    while ( first != NULL )
-      {
-         p = first;
-         first = first->next;
-         delete p;
-      }
-
-    length = 0;
+   node<T> *p;
+   
+   p = first->next;
+   
+   while ( p->next != first )
+   {  
+      node<T> *s;
+      s = first;
+      first = first->next;
+      p = p->next;
+      delete s;
+   }
+   delete p;
+   delete first;
+   length = 0;
 }
 
 template <class T>
@@ -166,18 +170,33 @@ template <class T>
 bool LList<T> :: searchItem(T item)
 {
    node<T> *p;
+   node<T> *s;
    bool found;
-
    found = false;
    p = first;
+   s = first;
 
-   while ( p != NULL && !found && p->info <= item )
+   while(s->next != first)
+   {
+      s = s->next;
+   }
+
+   while ( p != s && !found && p->info <= item )
    {
       if ( item == p->info )
          found= true;
       p = p->next;    
    }
 
+   if (found = true)
+   {
+      cout << "ITEM FOUND";
+   }
+   else
+   {
+      cout << "ITEM NOT FOUND";
+   }
+   
    return found;
 }
 
@@ -190,15 +209,21 @@ void LList<T> :: printList()
   {
      cout<<"\nLIST : ";
      node<T> *p;
+     node<T> *s;
 
      p = first;
-
-     while ( p != NULL )
+     s = first;
+     while (s->next != first)
+     {
+      s = s->next;
+     }
+     
+     while ( p != s )
      {
         cout<<p->info<<" ";
         p = p->next;
      }
-
+      cout<<s->info;
      cout<<"\n";
     } 
 }
