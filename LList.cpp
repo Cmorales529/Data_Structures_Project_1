@@ -50,30 +50,31 @@ void LList<T> :: insertItem(T item)
    length++;
    node<T> *p = new node<T>;
    p->info = item;
+   node<T> *c = first;
 
    if(first == NULL)
    {
-      p->next = p;
+      p = p->next;
       first = p;
    }
-   if (item < first->info)
+   else if(p->info <= first->info)
    {
+      while (c->next != first)
+      {
+         c=c->next;
+      }
+      c->next = p;
       p->next = first;
       first = p;
-      
    }
    else
    {
-      node<T> *q = first->next;
-      node<T> *r = NULL;
-
-      while ( q->next != first && q->info < item )
-        {
-            q = q->next;
-        }
-       r = q;
-       p->next = first;
-       r->next = p;
+      while (c->next != first && c->next->info < p->info)
+      {
+         p->next = c->next;
+         c->next = p;
+      }
+      
    }
 }
       
@@ -117,6 +118,40 @@ void LList<T> :: deleteItem(T item)
 template <class T>
 void LList<T> :: destroy()
 {
+   if(first == NULL)
+   {
+      cout << "LIST IS EMPTY\n";
+   }
+   if (first->info == item && first->next == first)
+   {
+      delete first;
+      first == NULL;
+   }
+   node<T> *l = first;
+   node<T> *d;
+   
+   if (first->info == item)
+   {
+      while(l->next != first)
+      {
+         l = l->next;
+      }
+      l->next = first->next;
+      delete first;
+      first = l->next;
+   }
+
+   while (l->next != first && l->next->info != item)
+   {
+      l = l->next;
+   }
+   
+   
+
+
+
+
+  /*
    node<T> *p;
    
    p = first->next;
@@ -132,6 +167,7 @@ void LList<T> :: destroy()
    delete p;
    delete first;
    length = 0;
+   */
 }
 
 template <class T>
@@ -203,6 +239,27 @@ bool LList<T> :: searchItem(T item)
 template <class T>        
 void LList<T> :: printList()
 {
+   if(first == NULL)
+   {
+      cout<<"LIST IS EMPTY\n";
+   }
+   else
+   {
+      node <T> *p;
+      p = first;
+      do
+      {
+         cout <<p->info << " ";
+         p = p->next;
+      } 
+      while (p != first);
+
+      cout << endl;
+      
+
+   }
+
+/*
   if ( first == NULL )
      cout<<"\nLIST IS EMPTY\n";
   else
@@ -225,5 +282,5 @@ void LList<T> :: printList()
      }
       cout<<s->info;
      cout<<"\n";
-    } 
+    } */
 }
