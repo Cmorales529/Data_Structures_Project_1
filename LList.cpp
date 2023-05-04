@@ -188,7 +188,7 @@ bool LList<T> :: searchItem(T item)
       p = p->next;    
    }
 
-   if (found = true)
+   if (found == true)
    {
       cout << "ITEM FOUND";
    }
